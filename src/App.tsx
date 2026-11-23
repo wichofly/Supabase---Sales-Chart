@@ -1,7 +1,11 @@
+import Dashboard from './components/Dashboard';
+import Header from './components/Header';
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-semibold">Hello Sales Dashboard</h1>
+    <div className="min-h-screen bg-gray-100 pt-16">
+      <Header />
+      <Dashboard />
     </div>
   );
 }
