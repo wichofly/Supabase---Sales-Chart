@@ -1,4 +1,13 @@
 import { useEffect, useState } from 'react';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { supabase } from '../utils/supabase';
 
 type MetricProps = {
@@ -18,8 +27,8 @@ const Dashboard = () => {
 
         if (error) throw error;
 
-        setMetrics(data);
         console.log(data);
+        setMetrics(data);
       } catch (error) {
         console.error('Error fetching metrics:', error);
       }
@@ -38,8 +47,27 @@ const Dashboard = () => {
           Employees: {metrics.length}
         </p>
 
-        <div className="mt-6 flex h-64 items-center justify-center rounded-lg bg-emerald-50 p-4 text-center text-gray-500">
-          <p>Sales chart will appear here.</p>
+        <div className="mt-6 h-80 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={metrics} accessibilityLayer>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="name" />
+              <YAxis
+                width={80}
+                tickFormatter={(value) => `$${Number(value).toLocaleString()}`}
+              />
+              <Tooltip
+                formatter={(value) => `$${Number(value).toLocaleString()}`}
+              />
+              <Bar
+                dataKey="sum"
+                name="Total sales"
+                fill="#059669"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={80}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </section>
     </main>
