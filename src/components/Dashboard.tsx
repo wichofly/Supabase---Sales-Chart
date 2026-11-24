@@ -9,8 +9,9 @@ import {
   YAxis,
 } from 'recharts';
 import { supabase } from '../utils/supabase';
+import Form from './Form';
 
-type MetricProps = {
+export type MetricProps = {
   name: string;
   sum: number;
 };
@@ -91,6 +92,8 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
       </section>
+
+      <Form metrics={metrics} />
     </main>
   );
 };
