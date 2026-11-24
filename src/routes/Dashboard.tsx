@@ -9,7 +9,7 @@ import {
   YAxis,
 } from 'recharts';
 import { supabase } from '../utils/supabase';
-import Form from './Form';
+import Form from '../components/Form';
 
 export type MetricProps = {
   name: string;

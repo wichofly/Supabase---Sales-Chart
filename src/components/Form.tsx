@@ -1,6 +1,6 @@
 import { useActionState } from 'react';
 import { supabase } from '../utils/supabase';
-import type { MetricProps } from './Dashboard';
+import type { MetricProps } from '../routes/Dashboard';
 
 const Form = ({ metrics }: { metrics: MetricProps[] }) => {
   const [error, submitAction, isPending] = useActionState<

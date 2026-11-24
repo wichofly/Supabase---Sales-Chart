@@ -1,13 +1,8 @@
-import Dashboard from './components/Dashboard';
-import Header from './components/Header';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 
 function App() {
-  return (
-    <div className="min-h-screen bg-gray-100 pt-16">
-      <Header />
-      <Dashboard />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
