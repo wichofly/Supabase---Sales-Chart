@@ -60,8 +60,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="mx-auto w-full max-w-5xl p-4 sm:p-8">
-      <section className="rounded-lg bg-white p-6 shadow-sm">
+    <main className="mx-auto w-full max-w-5xl space-y-6 p-4 sm:p-8">
+      <section className="rounded-lg bg-white p-4 shadow-sm sm:p-6">
         <h2 className="text-xl font-semibold text-gray-800">
           Total Sales This Quarter ($)
         </h2>
