@@ -6,9 +6,7 @@ const Dashboard = () => {
     const fetchMetrics = async () => {
       const response = await supabase
         .from('sales_deals')
-        .select(`name, value`)
-        .order('value', { ascending: false })
-        .limit(1);
+        .select(`name, value.sum()`);
 
       console.log(response);
     };
