@@ -35,6 +35,27 @@ const Dashboard = () => {
     };
 
     fetchMetrics();
+
+    const channel = supabase
+      .channel('deal-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'sales_deals',
+        },
+        (payload) => {
+          console.log('Change received!', payload);
+          fetchMetrics();
+        },
+      )
+      .subscribe();
+
+    // Cleanup subscription
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (
