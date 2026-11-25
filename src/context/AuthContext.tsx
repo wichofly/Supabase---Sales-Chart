@@ -17,28 +17,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signInUser = async (email: string, password: string) => {
-    try {
-      // supabase method
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      // handle supabase error explicity
-      if (error) {
-        console.error('Supabase sign-in error:', error.message);
-        return error.message;
-      }
-
-      //success
-      console.log('Supabase sign-in success', data.session);
-      return data.session;
-    } catch (error) {
-      // unexpected error
-      console.error('Unexpected error during sign-in:', error);
-      return 'Failed to sign in. Please try again.';
-    }
+  const signInUser = (email: string, password: string) => {
+    return supabase.auth.signInWithPassword({ email, password });
   };
 
   return (

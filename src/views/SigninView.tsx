@@ -19,15 +19,23 @@ const SigninView = () => {
       return 'Please enter the password.';
     }
 
-    const { data, error: signInError } = await signInUser(email, password);
+    try {
+      const { data, error: signInError } = await signInUser(
+        email.trim(),
+        password,
+      );
 
-    if (signInError) throw signInError;
+      if (signInError) {
+        return signInError.message;
+      }
 
-    if (data?.session) return null;
+      console.log('Supabase sign-in success. User:', data.session);
 
-    console.log('User:', { email, password });
-
-    return null;
+      return null;
+    } catch (error) {
+      console.error('Unexpected error during sign-in:', error);
+      return 'Failed to sign in. Please try again.';
+    }
   }, null);
 
   if (session === undefined) {
@@ -41,6 +49,12 @@ const SigninView = () => {
       <section className="text-center p-4 text-emerald-600 text-4xl font-medium">
         <h1 className="">Welcome to the Sales Lab</h1>
       </section>
+
+      {/* {session && (
+        <p role="status" className="text-center text-emerald-700">
+          Signed in as {session.user.email ?? session.user.id}
+        </p>
+      )} */}
 
       <section className="mt-4 bg-white m-4 p-4 rounded-lg shadow-md">
         <form action={submitAction}>
@@ -59,6 +73,7 @@ const SigninView = () => {
               type="email"
               name="email"
               id="email"
+              autoComplete="email"
               placeholder="employee@aps.com"
               className="border rounded mt-2 p-2"
               disabled={isPending}
@@ -71,6 +86,7 @@ const SigninView = () => {
               type="password"
               name="password"
               id="password"
+              autoComplete="current-password"
               placeholder="Write your password"
               className="border rounded mt-2 p-2 "
               disabled={isPending}
@@ -79,14 +95,15 @@ const SigninView = () => {
 
           <button
             type="submit"
+            disabled={isPending}
             className="min-w-full bg-emerald-600 hover:bg-emerald-700 text-white mt-4 p-2 rounded cursor-pointer"
           >
-            {isPending ? 'Signin in...' : 'Sign in'}
+            {isPending ? 'Signing in...' : 'Sign in'}
           </button>
 
           {error && (
             <div
-              id="deal-error"
+              id="signin-error"
               role="alert"
               className="text-sm text-red-600 sm:col-span-3"
             >

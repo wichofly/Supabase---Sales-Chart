@@ -1,9 +1,13 @@
-import type { Session } from '@supabase/supabase-js';
+import type { AuthTokenResponsePassword, Session } from '@supabase/supabase-js';
 import { createContext, useContext } from 'react';
 
 type AuthContextValue = {
   // undefined: loading, null: signed out, Session: signed in.
   session: Session | null | undefined;
+  signInUser: (
+    email: string,
+    password: string,
+  ) => Promise<AuthTokenResponsePassword>;
 };
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
