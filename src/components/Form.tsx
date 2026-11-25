@@ -101,7 +101,7 @@ const Form = ({ metrics }: { metrics: MetricProps[] }) => {
 
         <button
           type="submit"
-          className="rounded bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
           disabled={isPending || metrics.length === 0}
         >
           {isPending ? 'Adding...' : 'Add Deal'}
