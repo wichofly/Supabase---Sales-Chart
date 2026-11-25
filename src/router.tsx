@@ -1,12 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Header from './components/Header';
 import Dashboard from './routes/Dashboard';
-import Signin from './views/SigninView';
+import SigninView from './views/SigninView';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Signin />,
+    element: <SigninView />,
   },
   {
     path: '/dashboard',
