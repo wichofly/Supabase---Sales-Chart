@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: (
-      <div className="min-h-screen bg-gray-100 pt-16">
+      <div className="min-h-screen pt-16">
         <Header />
         <Dashboard />
       </div>
