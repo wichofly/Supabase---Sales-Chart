@@ -1,9 +1,10 @@
 import { useActionState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 
 function SigninView() {
   const { session, signInUser } = useAuth();
+  const navigate = useNavigate();
   const [errorMessage, submitAction, isPending] = useActionState(
     handleSignIn,
     null,
@@ -34,8 +35,13 @@ function SigninView() {
         return signInError.message;
       }
 
+      if (!data.session) {
+        return 'Sign-in did not create a session. Please try again.';
+      }
+
       console.log('Supabase sign-in success. User:', data.user);
 
+      await navigate('/dashboard', { replace: true });
       return null;
     } catch (error) {
       console.error('Unexpected error during sign-in:', error);
