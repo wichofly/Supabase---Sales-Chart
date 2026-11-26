@@ -45,73 +45,109 @@ function SigninView() {
 
   if (session === undefined) {
     return (
-      <div className="p-4 text-lg font-medium text-amber-700">Loading...</div>
+      <main className="min-h-dvh bg-gray-50 px-4 py-10 sm:px-6 sm:py-16">
+        <p role="status" className="text-center text-base text-gray-600">
+          Loading...
+        </p>
+      </main>
     );
   }
 
   return (
-    <>
-      <section className="p-4 text-center text-4xl font-medium text-emerald-600">
-        <h1>Welcome to the Sales Lab</h1>
-      </section>
-
-      <section className="mx-auto w-full max-w-2xl space-y-6 sm:p-8 rounded-lg bg-white p-4 shadow-md">
-        <form action={submitAction}>
-          <h2 className="text-xl text-gray-800">Sign In</h2>
-          <p className="text-sm text-gray-600">
-            Don´t have an account yet?
-            <Link to="/sing-up" className="hover:text-gray-800 hover:border-b">
-              {' '}
-              Sign up
-            </Link>
+    <main className="min-h-dvh bg-gray-50 px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
+      <div className="mx-auto w-full max-w-md">
+        <header className="mb-8 text-center">
+          <h1 className="text-3xl font-semibold tracking-tight text-emerald-700 sm:text-4xl">
+            Welcome to the Sales Lab
+          </h1>
+          <p className="mt-3 text-base leading-6 text-gray-600">
+            Sign in to your sales dashboard.
           </p>
+        </header>
 
-          <div className="mt-8 flex flex-col">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              autoComplete="email"
-              placeholder="employee@aps.com"
-              className="mt-2 rounded border p-2"
-              disabled={isPending}
-            />
-          </div>
-
-          <div className="mt-4 flex flex-col">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              autoComplete="current-password"
-              placeholder="Write your password"
-              className="mt-2 rounded border p-2"
-              disabled={isPending}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isPending}
-            className="mt-4 min-w-full cursor-pointer rounded bg-emerald-600 p-2 text-white hover:bg-emerald-700"
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8">
+          <form
+            action={submitAction}
+            aria-labelledby="signin-title"
+            aria-describedby={errorMessage ? 'signin-error' : undefined}
+            aria-busy={isPending}
+            className="space-y-6"
           >
-            {isPending ? 'Signing in...' : 'Sign in'}
-          </button>
-
-          {errorMessage && (
-            <div
-              id="signin-error"
-              role="alert"
-              className="text-sm text-red-600 sm:col-span-3"
-            >
-              {errorMessage}
+            <div className="space-y-2">
+              <h2
+                id="signin-title"
+                className="text-2xl font-semibold text-gray-900"
+              >
+                Sign in
+              </h2>
+              <p className="text-sm leading-6 text-gray-600">
+                Don't have an account yet?{' '}
+                <Link
+                  to="/sing-up"
+                  className="rounded-sm font-semibold text-emerald-700 underline underline-offset-4 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-600"
+                >
+                  Sign up
+                </Link>
+              </p>
             </div>
-          )}
-        </form>
-      </section>
-    </>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="email"
+                placeholder="employee@aps.com"
+                className="min-h-12 w-full min-w-0 rounded-lg border border-gray-300 bg-white px-3 py-3 text-base text-gray-900 shadow-sm outline-none placeholder:text-gray-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 disabled:cursor-not-allowed disabled:bg-gray-100"
+                disabled={isPending}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="current-password"
+                placeholder="Enter your password"
+                className="min-h-12 w-full min-w-0 rounded-lg border border-gray-300 bg-white px-3 py-3 text-base text-gray-900 shadow-sm outline-none placeholder:text-gray-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 disabled:cursor-not-allowed disabled:bg-gray-100"
+                disabled={isPending}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isPending}
+              className="min-h-12 w-full cursor-pointer rounded-lg bg-emerald-600 px-4 py-3 text-base font-semibold text-white hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isPending ? 'Signing in...' : 'Sign in'}
+            </button>
+
+            {errorMessage && (
+              <div
+                id="signin-error"
+                role="alert"
+                className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm leading-6 wrap-break-word text-red-700"
+              >
+                {errorMessage}
+              </div>
+            )}
+          </form>
+        </section>
+      </div>
+    </main>
   );
 }
 
