@@ -8,32 +8,30 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { supabase } from '../utils/supabase';
 import Form from '../components/Form';
+import type { SalesMetric } from '../types/sales';
+import { supabase } from '../utils/supabase';
 
-export type MetricProps = {
-  name: string;
-  sum: number;
-};
-
-const Dashboard = () => {
-  const [metrics, setMetrics] = useState<MetricProps[]>([]);
+function Dashboard() {
+  const [metrics, setMetrics] = useState<SalesMetric[]>([]);
 
   useEffect(() => {
-    const fetchMetrics = async () => {
+    async function fetchMetrics() {
       try {
         const { data, error } = await supabase
           .from('sales_deals')
-          .select(`name, value.sum()`);
+          .select('name, value.sum()');
 
-        if (error) throw error;
+        if (error) {
+          throw error;
+        }
 
-        console.log(data);
+        console.log('Sales metrics:', data);
         setMetrics(data);
       } catch (error) {
         console.error('Error fetching metrics:', error);
       }
-    };
+    }
 
     fetchMetrics();
 
@@ -53,7 +51,6 @@ const Dashboard = () => {
       )
       .subscribe();
 
-    // Cleanup subscription
     return () => {
       supabase.removeChannel(channel);
     };
@@ -96,6 +93,6 @@ const Dashboard = () => {
       <Form metrics={metrics} />
     </main>
   );
-};
+}
 
 export default Dashboard;

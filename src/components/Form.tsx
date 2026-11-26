@@ -1,12 +1,21 @@
 import { useActionState } from 'react';
+import type { SalesMetric } from '../types/sales';
 import { supabase } from '../utils/supabase';
-import type { MetricProps } from '../routes/Dashboard';
 
-const Form = ({ metrics }: { metrics: MetricProps[] }) => {
-  const [error, submitAction, isPending] = useActionState<
-    string | null,
-    FormData
-  >(async (_previousState, formData) => {
+type FormProps = {
+  metrics: SalesMetric[];
+};
+
+function Form({ metrics }: FormProps) {
+  const [errorMessage, submitAction, isPending] = useActionState(
+    handleAddDeal,
+    null,
+  );
+
+  async function handleAddDeal(
+    _previousError: string | null,
+    formData: FormData,
+  ): Promise<string | null> {
     const name = formData.get('name');
     const amount = formData.get('value');
 
@@ -28,11 +37,13 @@ const Form = ({ metrics }: { metrics: MetricProps[] }) => {
     }
 
     try {
-      const { error } = await supabase
+      const { error: insertError } = await supabase
         .from('sales_deals')
         .insert({ name, value });
 
-      if (error) throw error;
+      if (insertError) {
+        throw insertError;
+      }
 
       console.log('New deal:', { name, value });
 
@@ -41,7 +52,7 @@ const Form = ({ metrics }: { metrics: MetricProps[] }) => {
       console.error('Error adding deal:', error);
       return 'Failed to add deal. Please try again.';
     }
-  }, null);
+  }
 
   return (
     <section className="rounded-lg bg-white p-4 shadow-sm sm:p-6">
@@ -50,7 +61,7 @@ const Form = ({ metrics }: { metrics: MetricProps[] }) => {
       <form
         action={submitAction}
         aria-label="Add new sales deal"
-        aria-describedby={error ? 'deal-error' : undefined}
+        aria-describedby={errorMessage ? 'deal-error' : undefined}
         className="mt-4 grid gap-4 sm:grid-cols-3 sm:items-end"
       >
         <div>
@@ -101,24 +112,24 @@ const Form = ({ metrics }: { metrics: MetricProps[] }) => {
 
         <button
           type="submit"
-          className="rounded bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+          className="cursor-pointer rounded bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={isPending || metrics.length === 0}
         >
           {isPending ? 'Adding...' : 'Add Deal'}
         </button>
 
-        {error && (
+        {errorMessage && (
           <p
             id="deal-error"
             role="alert"
             className="text-sm text-red-600 sm:col-span-3"
           >
-            {error}
+            {errorMessage}
           </p>
         )}
       </form>
     </section>
   );
-};
+}
 
 export default Form;

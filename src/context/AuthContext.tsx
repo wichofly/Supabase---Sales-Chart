@@ -3,7 +3,11 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { supabase } from '../utils/supabase';
 import { AuthContext } from './useAuth';
 
-export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
+type AuthContextProviderProps = {
+  children: ReactNode;
+};
+
+export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
@@ -14,16 +18,18 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       setSession(currentSession);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
-  const signInUser = (email: string, password: string) => {
+  function signInUser(email: string, password: string) {
     return supabase.auth.signInWithPassword({ email, password });
-  };
+  }
 
   return (
     <AuthContext.Provider value={{ session, signInUser }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
